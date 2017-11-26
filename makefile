@@ -24,6 +24,10 @@ file:
 	@echo -e "$(ecG)Build $(ecP)$(f) $(eR)into $(ecP).build$(eR)/$(ecP)$(f)$(eR)"
 	@mkdir -p .build/$(d)/
 	@mkdir -p .build/$(d)/$(f)
+	# First run for simple compilation
+	@pdflatex -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
+	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
+	# Second run for progressive compilation
 	@pdflatex -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
 	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
 	@cp .build/$(d)/$(f)/$(f).pdf $(d)/$(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
@@ -33,7 +37,7 @@ file:
 FILES = $(wildcard $(d)/*.tex)
 dir:
 	@echo -e "$(ecG)Run $(eR)target $(ecC)dir $(eR)on $(ecP)$(d)$(eR)"
-	echo -e "$(ecG)Found $(ecP)$(FILES)$(eR)" && $(foreach x, $(FILES), $(MAKE) file f="$(notdir $(basename $(x)))";)
+	@echo -e "$(ecG)Found $(ecP)$(FILES)$(eR)" && $(foreach x, $(FILES), $(MAKE) file f="$(notdir $(basename $(x)))";)
 
 clean:
 	@echo -e "$(ecG)Clean$(eR) up directory"
