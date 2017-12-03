@@ -25,10 +25,10 @@ file:
 	@mkdir -p .build/$(d)/
 	@mkdir -p .build/$(d)/$(f)
 	# First run for simple compilation
-	@pdflatex -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
+	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
 	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
 	# Second run for progressive compilation
-	@pdflatex -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
+	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
 	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
 	@cp .build/$(d)/$(f)/$(f).pdf $(d)/$(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
 	@echo -e "$(ecG)Remove $(ecP).build$(eR)"
