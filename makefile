@@ -8,13 +8,7 @@ ecP = \e[0;35m
 ecC = \e[0;36m
 
 default:
-	@echo -e "$(ecG)Decide $(eR)on a target"
-ifdef f
-	$(MAKE) file
-else
-	@echo -e "$(ecG)Run $(ecC)dir $(eR)on $(ecP). $(eR)by default"
-	$(MAKE) dir
-endif
+	$(MAKE) install
 
 install:
 	@echo -e "$(ecG)Copy $(eR)template files to $(ecP)~/.re1/latex-templates$(eR)"
