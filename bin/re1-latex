@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+cp $HOME/.re1/latex-templates/makefile ./makefile
+cp $HOME/.re1/latex-templates/school.cls ./school.cls
+
+make
+
+rm $PWD/makefile
+rm $PWD/school.cls

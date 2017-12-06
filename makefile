@@ -16,31 +16,28 @@ else
 	$(MAKE) dir
 endif
 
-all:
-	$(MAKE) clean
+install:
+	@echo -e "$(ecG)Copy $(eR)template files to $(ecP)~/.re1/latex-templates$(eR)"
+	@mkdir -p $(HOME)/.re1/latex-templates
+	@cp ./data/makefile $(HOME)/.re1/latex-templates/makefile
+	@cp ./data/school.cls $(HOME)/.re1/latex-templates/school.cls
+	@cp ./data/school.tex $(HOME)/.re1/latex-templates/school.tex
+	@echo -e "$(ecG)Copy $(eR)executable to $(ecP)/usr/local/bin/re1-latex$(eR)"
+	@cp ./bin/re1-latex /usr/local/bin/re1-latex || \
+		echo -e "$(ecR)Permission denied for current user."; \
+		echo -e "$(ecG)Copy $(eR)executable to $(ecP)/usr/local/bin/re1-latex $(ecC)using sudo$(eR)"; \
+		sudo cp ./bin/re1-latex /usr/local/bin/re1-latex || \
+			echo -e "$(ecR)Permission denied$(eR)"
 
-file:
-	@echo -e "$(ecG)Run $(eR)target $(ecC)file $(eR)on $(ecP)$(f)$(eR)"
-	@echo -e "$(ecG)Build $(ecP)$(f) $(eR)into $(ecP).build$(eR)/$(ecP)$(f)$(eR)"
-	@mkdir -p .build/$(d)/
-	@mkdir -p .build/$(d)/$(f)
-	# First run for simple compilation
-	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
-	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
-	# Second run for progressive compilation
-	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error$(eR)"
-	@cat .build/$(d)/$(f)/$(f).log | grep ".*:[0-9]*:.*" || echo -e "$(ecG)Everything ok$(eR)"
-	@cp .build/$(d)/$(f)/$(f).pdf $(d)/$(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
-	@echo -e "$(ecG)Remove $(ecP).build$(eR)"
-	rm -rf .build
-
-FILES = $(wildcard $(d)/*.tex)
-dir:
-	@echo -e "$(ecG)Run $(eR)target $(ecC)dir $(eR)on $(ecP)$(d)$(eR)"
-	@echo -e "$(ecG)Found $(ecP)$(FILES)$(eR)" && $(foreach x, $(FILES), $(MAKE) file f="$(notdir $(basename $(x)))";)
+uninstall:
+	@echo -e "$(ecG)Remove $(eR)template files from $(ecP)~/.re1/latex-templates$(eR)"
+	@rm -r $(HOME)/.re1/latex-templates
+	@echo -e "$(ecG)Remove $(eR)executable from $(ecP)/usr/local/bin/re1-latex$(eR)"
+	@rm -r /usr/local/bin/re1-latex || \
+		echo -e "$(ecR)Permission denied for current user."; \
+		echo -e "$(ecG)Remove $(eR)executable from $(ecP)/usr/local/bin/re1-latex $(ecC)using sudo$(eR)"; \
+		sudo rm /usr/local/bin/re1-latex || \
+			echo -e "$(ecR)Permission denied$(eR)"
 
 clean:
-	@echo -e "$(ecG)Clean$(eR) up directory"
-	rm -rf .build
-	rm -f *.acn *.acr *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy
-	rm -rf _minted*
+	@echo -e "$(ecP)Clean $(eR) holds no functionality at the moment. If you want to remove all files related to $(ecC)re1-latex$(eR) use $(ecP)uninstall $(eR)instead."
