@@ -1,8 +1,26 @@
 \ProvidesClass{school}
+
+% = options
+% == landscape
+\newif\iflandscape
+\DeclareOption{landscape}{
+	\landscapetrue
+	\PassOptionsToClass{landscape}{article}
+}
+% == pass Options
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\ProcessOptions \relax
+% == load article class
 \LoadClass[a4paper,10pt]{article}
 
 % = packages
-\RequirePackage{a4wide}
+\iflandscape
+	\RequirePackage[landscape,margin=1in]{geometry}
+\else
+	\RequirePackage{a4wide}
+\fi
+
+\RequirePackage[landscape]{geometry}
 \RequirePackage{booktabs}
 \RequirePackage[marginal, norule, perpage]{footmisc}
 \RequirePackage{titling}
