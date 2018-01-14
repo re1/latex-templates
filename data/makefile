@@ -32,7 +32,7 @@ file:
 	@grep ".*:[0-9]*:.*" .build/$(d)/$(f)/$(f).log -A1 || echo -e "$(ecG)Everything ok$(eR)"
 	@cp .build/$(d)/$(f)/$(f).pdf $(d)/$(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
 	@echo -e "$(ecG)Remove $(ecP).build$(eR)"
-	rm -rf .build
+	$(MAKE) clean
 
 FILES = $(wildcard $(d)/*.tex)
 dir:
