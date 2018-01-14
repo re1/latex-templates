@@ -1,27 +1,31 @@
 \ProvidesClass{school}
 
 % = options
-% == landscape
-\newif\iflandscape
+% == use landscape orientation
+\newif\iflandscape\landscapefalse
 \DeclareOption{landscape}{\landscapetrue}
-% == pass Options
-\if @landscape
-  \PassOptionsToClass{landscape}{article}
-\fi
+% == do not print title page
+\newif\iftitle\titletrue
+\DeclareOption{notitle}{\titlefalse}
+% == do not print table of contents
+\newif\iftoc\toctrue
+\DeclareOption{notoc}{\tocfalse}
 
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+% == pass Options
+\iflandscape\PassOptionsToClass{landscape}{article}\fi
+
+% \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions \relax
 % == load article class
 \LoadClass[a4paper,10pt]{article}
 
 % = packages
-\if @landscape
-	\RequirePackage[landscape,margin=1in]{geometry}
+\iflandscape
+  \RequirePackage[landscape,margin=1in]{geometry}
 \else
 	\RequirePackage{a4wide}
 \fi
 
-\RequirePackage[landscape]{geometry}
 \RequirePackage{booktabs}
 \RequirePackage[marginal, norule, perpage]{footmisc}
 \RequirePackage{titling}
@@ -43,7 +47,7 @@
 \RequirePackage{outlines}
 \RequirePackage{enumitem}
 \RequirePackage{tabularx}
-\RequirePackage[acronym, xindy, toc]{glossaries}
+\RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 
 % = variables
 \newcommand\@subject{}
@@ -87,4 +91,18 @@
 }{\end{tabular} \normalsize \endcenter}
 \newcommand\addvardef[2]{
     {#1} & \dots & {#2}\\
+}
+
+% == add common commands at the beginning of the document
+\AtBeginDocument{
+    % title page
+    \iftitle
+        \maketitle
+        \thispagestyle{empty}
+    \fi
+    % table of contents
+    \iftoc
+        \tableofcontents
+        \glsresetall
+    \fi
 }
