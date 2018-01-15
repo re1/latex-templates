@@ -25,12 +25,16 @@ file:
 	@mkdir -p .build/$(d)/
 	@mkdir -p .build/$(d)/$(f)
 	# First run for simple compilation
-	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error on first run$(eR)"
+	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f) || echo -e "$(ecR)Error on first run$(eR)"
 	@grep ".*:[0-9]*:.*" .build/$(d)/$(f)/$(f).log -A1 || echo -e "$(ecG)Everything ok$(eR)"
 	# Make glossaries
-	@makeglossaries $(d)/$(f).tex || echo -e "$(ecR)Error on makeglossaries$(eR)"
+ifeq ($(wildcard $(d)/*.glo),)
+	@echo -e "Skip makeglossaries due to missing glossary file"
+else
+	@makeglossaries $(d)/$(f) || echo -e "$(ecR)Error on makeglossaries$(eR)";
+endif
 	# Second run for progressive compilation
-	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f).tex || echo -e "$(ecR)Error on second run$(eR)"
+	@pdflatex -shell-escape -file-line-error -interaction=batchmode -output-directory=.build/$(d)/$(f) $(d)/$(f) || echo -e "$(ecR)Error on second run$(eR)"
 	@grep ".*:[0-9]*:.*" .build/$(d)/$(f)/$(f).log -A1 || echo -e "$(ecG)Everything ok$(eR)"
 	@cp .build/$(d)/$(f)/$(f).pdf $(d)/$(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
 	@echo -e "$(ecG)Remove $(ecP).build$(eR)"
