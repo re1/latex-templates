@@ -40,6 +40,7 @@
 \RequirePackage{amssymb}
 \RequirePackage{mathtools}
 \RequirePackage{graphicx}
+\RequirePackage{svg}
 \RequirePackage{caption}
 \RequirePackage{subcaption}
 \RequirePackage{hyperref}
