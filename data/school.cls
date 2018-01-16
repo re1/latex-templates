@@ -3,7 +3,7 @@
 % = options
 % == use landscape orientation
 \newif\iflandscape\landscapefalse
-\DeclareOption{landscape}{\landscapetrue}
+\DeclareOption{landscape}{\landscapetrue\PassOptionsToClass{landscape}{article}}
 % == do not print title page
 \newif\iftitle\titletrue
 \DeclareOption{notitle}{\titlefalse}
@@ -11,9 +11,7 @@
 \newif\iftoc\toctrue
 \DeclareOption{notoc}{\tocfalse}
 
-% == pass Options
-\iflandscape\PassOptionsToClass{landscape}{article}\fi
-
+% = pass options
 % \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions \relax
 % == load article class
@@ -27,26 +25,21 @@
 \fi
 
 \RequirePackage{booktabs}
-\RequirePackage[marginal, norule, perpage]{footmisc}
-\RequirePackage{titling}
 \RequirePackage{lastpage}
+\RequirePackage{multicol, float}
+\RequirePackage{titling}
+\RequirePackage{fancyhdr}
+\RequirePackage[marginal, norule, perpage]{footmisc}
 \RequirePackage[ngerman]{babel}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage{microtype}
 \RequirePackage[T1]{fontenc}
-\RequirePackage{mathptmx}
 \RequirePackage[dvipsnames]{xcolor}
-\RequirePackage{fancyhdr}
-\RequirePackage{amssymb}
-\RequirePackage{mathtools}
-\RequirePackage{graphicx}
-\RequirePackage{caption}
-\RequirePackage{subcaption}
-\RequirePackage{hyperref}
-\RequirePackage{url}
-\RequirePackage{outlines}
-\RequirePackage{enumitem}
+\RequirePackage{amssymb, mathptmx, mathtools}
+\RequirePackage{graphicx, caption, subcaption}
+\RequirePackage{hyperref, url}
 \RequirePackage{tabularx}
+\RequirePackage{outlines, enumitem}
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 
 % = variables
