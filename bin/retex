@@ -1,6 +1,6 @@
 #!/usr/bin/bash
-cp $HOME/.re1/latex-templates/makefile ./makefile
-cp $HOME/.re1/latex-templates/school.cls ./school.cls
+cp $HOME/.re1/templates/makefile ./makefile
+cp $HOME/.re1/templates/school.cls ./school.cls
 
 make
 

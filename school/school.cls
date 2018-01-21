@@ -24,21 +24,21 @@
 	\RequirePackage{a4wide}
 \fi
 
-\RequirePackage{booktabs}
 \RequirePackage{lastpage}
 \RequirePackage{multicol, float}
 \RequirePackage{titling}
 \RequirePackage{fancyhdr}
 \RequirePackage[marginal, norule, perpage]{footmisc}
-\RequirePackage[ngerman]{babel}
-\RequirePackage[utf8]{inputenc}
-\RequirePackage{microtype}
+\RequirePackage{crimson}
+\RequirePackage{inconsolata}
 \RequirePackage[T1]{fontenc}
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[ngerman]{babel}
 \RequirePackage[dvipsnames]{xcolor}
-\RequirePackage{amssymb, mathptmx, mathtools}
+\RequirePackage{amssymb, mathtools}
 \RequirePackage{graphicx, caption, subcaption}
 \RequirePackage{hyperref, url}
-\RequirePackage{tabularx}
+\RequirePackage{booktabs, tabularx}
 \RequirePackage{outlines, enumitem}
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 
