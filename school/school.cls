@@ -1,27 +1,34 @@
 \ProvidesClass{school}
 
-% = options
-% == use landscape orientation
+% # options
+% ## use landscape orientation
 \newif\iflandscape\landscapefalse
 \DeclareOption{landscape}{\landscapetrue\PassOptionsToClass{landscape}{article}}
-% == do not print title page
+% ## do not print title page
 \newif\iftitle\titletrue
 \DeclareOption{notitle}{\titlefalse}
-% == do not print table of contents
+% ## do not print table of contents
 \newif\iftoc\toctrue
 \DeclareOption{notoc}{\tocfalse}
+% ## use minted package
+\newif\ifminted\mintedfalse
+\DeclareOption{minted}{\mintedtrue}
 
-% = pass options
+% # pass options
 % \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
 \ProcessOptions \relax
-% == load article class
+% ## load article class
 \LoadClass[a4paper,10pt]{article}
 
-% = packages
-\iflandscape
-  \RequirePackage[landscape,margin=1in]{geometry}
-\else
-	\RequirePackage{a4wide}
+% # packages
+% ## require landscape geometry
+\iflandscape\RequirePackage[landscape,margin=1in]{geometry}
+\else\RequirePackage{a4wide}\fi
+% ## add and configure minted
+\ifminted
+  \RequirePackage[outputdir=./.build]{minted}
+  \usemintedstyle{rainbow_dash}
+  \setminted{breakanywhere=true,breaklines=true,tabsize=4}
 \fi
 
 \RequirePackage{lastpage}
@@ -42,15 +49,15 @@
 \RequirePackage{outlines, enumitem}
 \RequirePackage[acronym, xindy, toc, nohypertypes={acronym,notation}]{glossaries}
 
-% = variables
+% # variables
 \newcommand\@subject{}
 \newcommand\subject[1]{\renewcommand\@subject{#1}}
 
-% = package configuration
-% == footnotes
+% # package configuration
+% ## footnotes
 \def\arraystretch{1.5}
 \renewcommand{\thefootnote}{\Roman{footnote}}
-% == header
+% ## header
 \pagestyle{fancy}
 \fancyhf{}
 
@@ -62,11 +69,11 @@
 \makeatother
 
 \renewcommand{\footrulewidth}{\headrulewidth}
-% == hyperlinks
+% ## hyperlinks
 \hypersetup{colorlinks=true, linkcolor=MidnightBlue, urlcolor=MidnightBlue, citecolor=MidnightBlue}
 
-% = makros
-% == title
+% # makros
+% ## title
 \makeatletter
 \renewcommand{\@maketitle}{
   \let \footnote \thanks~\\
@@ -77,7 +84,7 @@
 }
 \makeatother
 
-% == math variable declaration
+% ## math variable declaration
 \newenvironment{vardefs}{
 	\center \small
 	\begin{tabular}{l l l}
@@ -86,7 +93,7 @@
     {#1} & \dots & {#2}\\
 }
 
-% == add common commands at the beginning of the document
+% ## add common commands at the beginning of the document
 \AtBeginDocument{
     % title page
     \iftitle
