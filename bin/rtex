@@ -1,0 +1,10 @@
+#!/usr/bin/bash
+cp $HOME/.re1/templates/makefile $PWD/makefile
+
+cat *.tex | grep {school} && cp $HOME/.re1/templates/school.cls $PWD/school.cls
+cat *.tex | grep {science} && cp $HOME/.re1/templates/science.cls $PWD/science.cls
+
+make
+
+rm $PWD/makefile
+rm -rf $PWD/school.cls $PWD/science.cls

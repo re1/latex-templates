@@ -2,7 +2,7 @@
 My latex templates for everyone to use.
 
 * **`make install`** Install the cli tool.
-* **`retex`** Compile all .tex files in the current directory using the `school` template.
+* **`rtex`** Build `tex` files in directory using the template in `\documentclass`.
 * **`make uninstall`** Remove all files created when running `make install`.
 
 ## School
