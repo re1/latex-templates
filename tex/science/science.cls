@@ -13,14 +13,6 @@
 \newif\iftoc\toctrue
 \DeclareOption{notoc}{\tocfalse}
 
-% ## Do not print table of contents
-\newif\iftable\tabletrue
-\DeclareOption{notable}{\tablefalse}
-
-% ## Do not print logos
-\newif\iflogos\logostrue
-\DeclareOption{nologos}{\logosfalse}
-
 % ## Use default latex fonts
 \newif\iffonts\fontstrue
 \DeclareOption{nofonts}{\fontsfalse}
@@ -124,26 +116,11 @@
 \RequirePackage{csquotes}	% csquotes should be loaded after fvextra, to avoid a warning from the lineno package
 
 % # Variables
-\newcommand\@mysubtitle{}   % Untertitel
+\newcommand\@mysubtitle{}   % A subtitle
 \newcommand\mysubtitle[1]{\renewcommand\@mysubtitle{#1}}
 
-\newcommand\@mysubject{}    % Systemtechnik Labor
+\newcommand\@mysubject{}    % A subject
 \newcommand\mysubject[1]{\renewcommand\@mysubject{#1}}
-
-\newcommand\@mycourse{}     % 5xHIT 2017/18, Gruppe A
-\newcommand\mycourse[1]{\renewcommand\@mycourse{#1}}
-
-\newcommand\@myteacher{}    % Michel Borko
-\newcommand\myteacher[1]{\renewcommand\@myteacher{#1}}
-
-\newcommand\@myversion{}    % 1.0
-\newcommand\myversion[1]{\renewcommand\@myversion{#1}}
-
-\newcommand\@mybegin{}      % 31.1.2018
-\newcommand\mybegin[1]{\renewcommand\@mybegin{#1}}
-
-\newcommand\@myfinish{}     % 1.2.2018
-\newcommand\myfinish[1]{\renewcommand\@myfinish{#1}}
 
 % # Package configuration
 \newcolumntype{Y}{p{.5\textwidth}}  % TabularX
@@ -166,7 +143,6 @@
 \fancyhead[C]{\small \@mysubject}
 \fancyhead[R]{\small \@date}
 \fancyfoot[L]{\small \theauthor ~ {\footnotesize\ccby}}
-\fancyfoot[C]{\small \@mycourse}
 \fancyfoot[R]{\small \thepage~/~{\lastpageref*{VeryLastPage}}}
 \makeatother
 
@@ -181,44 +157,17 @@
 % ## Title
 \makeatletter
 \renewcommand\@maketitle{
-    \iflogos~\\              % Print logos
-        \IfFileExists{images/tgm-logo.png}
-            {\includegraphics[height=2cm]{images/tgm-logo.png}}{}\hfill
-        \IfFileExists{images/hit-logo.png}
-            {\includegraphics[height=2cm]{images/hit-logo.png}}{}\fi
-
-    \vskip 1cm              % Minimum margin
-    \iflandscape\else       % Do not increase margin on landscape
-        \iftable\vskip 3cm  % + table margin
-        \else\vskip 1cm\fi  % + default margin
-    \fi
+    \vskip 1cm                      % Minimum margin
+    \iflandscape\else\vskip 1cm\fi  % Do not increase margin on landscape
     % Content
     \begin{center}
         \if\relax\@mysubject\relax\else     {\Large\@mysubject}     ~\\\vspace{0.5em}\fi
-        \if\relax\@mycourse\relax\else      \@mycourse              ~\\\vspace{2em}\fi
         {\Huge\textbf\thetitle}                                     ~\\\vspace{1em}
-        \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}    ~\\\vspace{2em}\fi
+        \if\relax\@mysubtitle\relax\else    {\LARGE\@mysubtitle}\fi ~\\\vspace{2em}
         \theauthor                                                  ~\\\vspace{0.5em}
         \@date
     \end{center}
     \vskip 1cm  % Minimum margin
-}\makeatother
-
-% ## Table after titlepage
-\makeatletter
-\newcommand\maketable{
-    \vfill~\\
-    \begin{minipage}[t]{0.3\textwidth}
-        Bewertung:\hfill\vspace{0.5em}\\
-        Betreuer:\hfill\@myteacher
-    \end{minipage}
-    \hfill
-    \begin{minipage}[t]{0.3\textwidth}
-        \if\relax\@myversion\relax\else Version:\hfill\@myversion   \vspace{0.5em}\\\fi
-        \if\relax\@mybegin\relax\else   Begonnen:\hfill\@mybegin    \vspace{0.5em}\\\fi
-        \if\relax\@myfinish\relax\else  Beendet:\hfill\@myfinish    \fi
-    \end{minipage}
-    \newpage
 }\makeatother
 
 % ## Basic centered figure
@@ -276,7 +225,6 @@
 \AtBeginDocument{
     \pagenumbering{arabic}                      % Required by pageslts
     \iftitle\maketitle\thispagestyle{empty}\fi  % Titlepage
-    \iftable\maketable\fi                       % Version table
     \iftoc\tableofcontents\glsresetall\fi       % Table of contents
 }
 
