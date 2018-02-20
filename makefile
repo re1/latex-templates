@@ -12,17 +12,13 @@ default:
 
 install:
 	@echo -e "$(ecG)Copy $(eR)template files to $(ecP)~/.re1/templates$(eR)"
-	@mkdir -p $(HOME)/.re1/templates
-	@cp ./bin/makefile $(HOME)/.re1/templates/makefile
-	@cp ./school/school.cls $(HOME)/.re1/templates/school.cls
-	@cp ./school/school.tex $(HOME)/.re1/templates/school.tex
-	@cp ./science/science.cls $(HOME)/.re1/templates/science.cls
-	@cp ./science/science.tex $(HOME)/.re1/templates/science.tex
+	@mkdir -p $(HOME)/.re1/templates/tex
+	@cp ./tex $(HOME)/.re1/templates -r
 	@echo -e "$(ecG)Copy $(eR)executable to $(ecP)/usr/local/bin/rtex$(eR)"
-	@cp ./bin/rtex /usr/local/bin/rtex || \
+	@cp ./rtex /usr/local/bin/rtex || \
 		echo -e "$(ecR)Permission denied for current user."; \
 		echo -e "$(ecG)Copy $(eR)executable to $(ecP)/usr/local/bin/rtex $(ecC)using sudo$(eR)"; \
-		sudo cp ./bin/rtex /usr/local/bin/rtex || \
+		sudo cp ./rtex /usr/local/bin/rtex || \
 			echo -e "$(ecR)Permission denied$(eR)"
 
 uninstall:
