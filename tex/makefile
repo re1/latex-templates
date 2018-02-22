@@ -29,9 +29,11 @@ endif
 	@latex -shell-escape -file-line-error -interaction=batchmode -output-directory=$(BUILD) $(f) || echo -e "$(ecR)Error running $(ecC)pdflatex$(ecR)!$(eR)"
 	@grep ".*:[0-9]*:.*" $(BUILD)/$(f).log -A$(ERRLINES) && { false; } || { echo -e "$(ecG)Everything OK!$(eR)"; }
 
-
 pdf:
 	@echo -e "$(ecG)Make $(ecC)pdf$(eR) for $(ecP)$(f)$(eR)"
+ifndef f
+	@echo -e "$(ecR)No file $(eCP)f $(eCR)defined. $(eR)Try adding $(ecP)f=filename!$(eR)"; false
+endif
 ifneq (.,$(BUILD))
 	@mkdir -p $(BUILD)
 endif
@@ -141,7 +143,9 @@ ifneq (.,$(BUILD))
 	@cp $(BUILD)/$(f).pdf $(f).pdf || echo -e "$(ecR)Missing $(ecP)$(f).pdf$(eR)"
 	rm -rf $(BUILD)
 endif
+	rm -rf *.4ct *.4tc *.idv *.lg *.xref *.tmp
 	rm -rf *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol
+	cd sections; rm -f *.acn *.acr *.alg *.aux *.bbl *.blg *-blx.bib *.bcf *.dvi *.glg *.glo *.gls *.glsdefs *.ist *.log *.out *.run.xml *.synctex.gz *.toc *.xdy *.lot *.lof *.lol	
 	rm -rf _minted*
 ifneq (true, $(LOG))
 	rm -rf *.log

@@ -25,6 +25,10 @@
 \newif\ifbib\bibtrue
 \DeclareOption{nobib}{\bibfalse}
 
+% ## Skip line instead of indent after blank line
+\newif\ifparskip\parskipfalse
+\DeclareOption{parskip}{\parskiptrue}
+
 % ## Use minted package
 \newif\ifminted\mintedfalse
 \DeclareOption{minted}{\mintedtrue}
@@ -55,7 +59,7 @@
 \RequirePackage[T1]{fontenc}
 \RequirePackage[utf8]{inputenc}
 \RequirePackage[ngerman]{babel}
-\RequirePackage{ccicons, amssymb, mathtools}
+\RequirePackage{ccicons, amssymb, mathtools, siunitx}
 
 \RequirePackage{fancyhdr, float, multicol, multirow, titling}
 \RequirePackage[marginal, norule, perpage]{footmisc}
@@ -63,12 +67,15 @@
 \RequirePackage{hyperref, url, pageslts}
 \RequirePackage{outlines, enumitem}
 \RequirePackage{booktabs, tabularx}
-\RequirePackage{graphicx, subcaption}
+\RequirePackage{graphicx, subcaption, wrapfig}
 \RequirePackage[font=small]{caption}
 \RequirePackage{accsupp}    % [1]
 
 % ## Count list items for lists
 \RequirePackage[figure,table,listing]{totalcount}
+
+% ## Skip lines instead of indents after a blank line
+\ifparskip\RequirePackage[parfill]{parskip}\fi
 
 % ## Glossaries
 \ifglo
@@ -77,13 +84,14 @@
 \fi
 
 % ## Bibliography
-\ifbib  \ifnatbib\RequirePackage{natbib}    % Choose backend
-        \else\RequirePackage[backend=bibtex]{biblatex}\fi\fi
+\ifbib  \ifnatbib\RequirePackage{natbib}\bibliographystyle{ieeetr}  % Choose backend
+        \else\RequirePackage[backend=bibtex, style=numeric]{biblatex}\fi\fi
 
 % ## Colors
+% https://coolors.co/05668d-028090-00a896-02c39a-f0f3bd
 \definecolor{MyLightGray}{RGB}{252,252,252}
-\definecolor{MyBlue}{RGB}{33,74,135}
-\definecolor{MyGreen}{RGB}{79,153,5}
+\definecolor{MyBlue}{RGB}{5,102,141}
+\definecolor{MyGreen}{RGB}{0,168,150}
 \definecolor{MyBrown}{RGB}{143,89,3}
 \definecolor{MyOrange}{RGB}{213,111,30}
 
@@ -130,6 +138,8 @@
 
 \hypersetup{breaklinks=true, colorlinks=true,   % Hyperlinks
             linkcolor=MyBlue, urlcolor=MyBlue, citecolor=MyBlue}
+
+\sisetup{locale=DE, per-mode=symbol}
 
 % ## Footnotes
 \def\arraystretch{1.5}

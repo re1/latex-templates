@@ -2,21 +2,23 @@
 import sys
 from getopt import getopt, GetoptError
 from os import getcwd, listdir, remove
-from os.path import expanduser, join
+from os.path import expanduser, join, isdir
 from shutil import copyfile
 from subprocess import call
 
 
 def usage():
-    print("-h --help\tShow a useful help menu")
-    print("-l --log\tSpare log files during cleanup")
+    print("-f  --file\tFile to compile")
+    print("-h  --help\tShow a useful help menu")
+    print("-l  --log\tSpare log files during cleanup")
+    print("-o  --odt\tBuild to odt instead of pdf")
 
 
 if __name__ == "__main__":
     make = ["make"]
 
     try:
-        opts, args = getopt(sys.argv[1:], "hlf:", ["help", "log"])
+        opts, args = getopt(sys.argv[1:], "f:hlm:o", ["file", "help", "log", "make", "odt"])
     except GetoptError:
         usage()
         sys.exit(2)
@@ -25,10 +27,14 @@ if __name__ == "__main__":
         if opt in ("-h", "--help"):
             usage()
             sys.exit()
+        if opt in ("-m", "--make"):
+            make += arg.split(" ")
         if opt in ("-f", "--file"):
-            if opt in ("-s", "--simple"):
-                make.append("pdf")
-            make.append("F=" + arg)
+            make.append("f=" + arg)
+        if opt in ("-s", "--simple"):
+            make.append("pdf")
+        if opt in ("-o", "--odt"):
+            make.append("odt")
         if opt in ("-l", "--log"):
             make.append("LOG=true")
 
@@ -39,17 +45,19 @@ if __name__ == "__main__":
     copyfile(join(src, ".lst.tex"), join(cwd, ".lst.tex"))
 
     files = [join(cwd, f) for f in listdir(cwd) if join(cwd, f).endswith(".tex")]
-    templates = ["school", "science"]
+    templates = [d for d in listdir(src) if isdir(join(src, d))]
     found = []
 
     for name in files:
         with open(name) as f:
             for line in f:
                 if "\documentclass" in line:
+                    template = line[line.index("{")+1:line.index("}")]
                     for t in templates:
-                        if "{%s}" % t in line:
+                        if template == t:
                             found.append(t)
                             templates.remove(t)
+                            break
                     break
         if not templates:
             break
